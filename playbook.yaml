@@ -1,0 +1,19 @@
+---
+- hosts : localhost
+  gather_facts: no
+  tasks:
+
+  - find:
+     paths: /home/osboxes/
+    register: out
+  - name: "Display all server ports and names from cluster1"
+    debug: var=item
+    with_items: "{{out|json_query(query)}}"
+    vars:
+      query: "files[].path"
+
+  - name: "HAPI_OUTPUT"
+    set_fact: 
+     hapi_ouput: "{{out|json_query(query)|map('regex_replace','^/home/osboxes/(.*)$','\\1')|list}}"
+    vars:
+      query: "files[].path"
