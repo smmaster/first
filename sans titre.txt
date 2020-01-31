@@ -1,0 +1,94 @@
+version: "3.2"
+services:
+traefik:
+image: traefik:v2.1.1
+user: root
+command:
+- "--log.level=DEBUG"
+- "--api.dashboard=true"
+- "--providers.docker.swarmMode=true"
+- "--providers.docker=true"
+- "--entrypoints.web.address=:80"
+- "--entrypoints.mongo.address=:27017"
+- "--api.insecure=true"
+#- "--providers.docker.exposedbydefault=false"
+ports:
+- "80:80"
+- "443:443"
+- "27017:27017"
+volumes:
+- "/var/run/docker.sock:/var/run/docker.sock:ro"
+deploy:
+labels:
+- "traefik.http.services.traefik.loadbalancer.server.port=8080"
+- "traefik.http.middlewares.auth.basicauth.users=user:$$apr1$$q8eZFHjF$$Fvmkk//V6Btlaf2i/ju5n/" # user/password
+- "traefik.http.routers.api.rule=Host(traefik.localhost)"
+- "traefik.http.routers.api.service=api@internal"
+- "traefik.http.routers.api.entrypoints=web"
+- "traefik.http.routers.api.middlewares=auth"
+mode: global
+placement:
+constraints:
+- node.role == manager
+networks:
+- traefik-network
+
+proxy:
+image: webofwork/auth-middleware:withnodemon
+working_dir: /auth
+environment:
+- PORT=1337
+- CONFIGMODE=production
+- CLIENTDOMAIN=localhost
+- AUTH_ROOT_PATH=/Users/adamcooke/Documents/GitHub/w0w-auth
+command: "npm start"
+volumes:
+- "./:/auth"
+- "/var/run/docker.sock:/var/run/docker.sock:ro"
+deploy:
+labels:
+- "traefik.enable=true"
+- "traefik.http.services.auth.loadbalancer.server.port=1337"
+- "traefik.http.routers.auth.rule=Host(localhost)"
+- "traefik.http.routers.auth.entrypoints=web"
+placement:
+constraints:
+- node.role == manager
+networks:
+- traefik-network
+mongodb:
+image: mongo
+hostname: mongo.localhost
+environment:
+- MONGO_INITDB_ROOT_USERNAME=
+- MONGO_INITDB_ROOT_PASSWORD=
+- MONGO_INITDB_DATABASE=
+volumes:
+- "/Users/adamcooke/Documents/GitHub/w0w-auth/customerdata/database:/data/db"
+command: mongod --bind_ip *
+networks:
+traefik-network:
+deploy:
+labels:
+- "traefik.enable=true"
+- "traefik.tcp.routers.mongodb.service=mongodb"
+- "traefik.tcp.routers.mongodb.entrypoints=mongo"
+- "traefik.tcp.routers.mongodb.rule=HostSNI(mongo.localhost)"
+- "traefik.tcp.routers.mongodb.tls.passthrough=true"
+- "traefik.tcp.services.mongodb.loadbalancer.server.port=27017"
+restart_policy:
+condition: on-failure
+networks:
+traefik-network:
+external: true
+
+we can see the databse is running because we can sh into it and see
+
+but we want to connect on mongo.localhost:27017 so we can access multiple databases for testing, it is not practical to do this through SH all the time
+
+we also know traefik is working fine
+
+it is some configuraton issue
+
+
+ 
