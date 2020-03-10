@@ -1,9 +1,14 @@
-dfsfdsdf
-fdsf
-dsf
-ds
-fds
-f
 
 
-https://utilitycloudsewebapis.azurewebsites.net/api/v1/products/?code=eh2eTWalC4jTaqaGZjRVP514AqRx5fKWRC6gZFLIL37ag1X6cn5PnA==
+curl -X GET "https://api-dev.utilitycloud.app/v1/pm/products?GLN=9876543210500" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFVTXlNRVF4T0VRelJqQXhPVGsxT0Rnd05UYzNNalZGTnpJeE16YzJSREEzTXpBd1F6TkNNQSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MXRmY3I1Yi5hdXRoMC5jb20vIiwic3ViIjoid3Q3aG1OWmNBQ3F2dE82M3NnUm5iVFcwYVR2SlNBQk5AY2xpZW50cyIsImF1ZCI6IjEyNCIsImlhdCI6MTU4MzgyODAzOCwiZXhwIjoxNTgzOTE0NDM4LCJhenAiOiJ3dDdobU5aY0FDcXZ0TzYzc2dSbmJUVzBhVHZKU0FCTiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.B3v8sEvR7RXijo469nKu7Z1zQpXumsvmjJm2JnKwpYDlqkfmAVTVa5Zpp4ClAZbTUNcCt46m4sMf8KtAolz1iQUfvhr4nJq-4V17xxqOExFxxjl3CgXwEPh2URxuohA_DtS04De0L_hd5FU1b6nYqEdItGcjQ9HNVEBcjlAvQm9Cg37XJWhSnX1A0mZOta5GUZEZVQqkzCQIsa_MAsBaxXTAFTfoZ1SPTDXbbQiAlUR0QHrd2xTRGmJ-jbZcYTSNaJNU_BCMbvRiE-3kf7gN07ujqibfoIupsT_iNrrn_oZd4a2Qj9T6WyjheOsIAZJh52s5EIUsB0t4WPsrRpWvbg"
+
+(client_id: wt7hmNZcACqvtO63sgRnbTW0aTvJSABN and GLN: 9876543210500) Pythagoras
+
+Result:
+
+HTTP/1.1 401 Unauthorized
+Content-Length: 0
+Request-Context: appId=
+Set-Cookie: ARRAffinity=55727a45c6a87cecae4c87e5b1c9877ff69fd2ffcdfe4d6c38a4e5c1889e3017;Path=/;HttpOnly;Domain=utilitycloudsewebapis.azurewebsites.net
+Set-Cookie: ARRAffinity=e3f151f06fbd0f78471b3feb8433ea3f4f2a489a9d92ad613a1ca01018b4cf04;Path=/;HttpOnly;Domain=utilitycloudsewebapis.azurewebsites.net
+Date: Tue, 10 Mar 2020 08:17:32 GMT
